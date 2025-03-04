@@ -1,0 +1,373 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Photography Portfolio</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+  <style>
+    /* Portfolio page specific styles */
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 120px;
+      padding: 20px;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .portfolio-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      opacity: 0;
+      transform: translateY(50px);
+      animation: fadeInUp 0.8s forwards;
+      animation-delay: calc(var(--item-index) * 0.1s);
+    }
+    
+    .portfolio-item:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(66, 198, 255, 0.4);
+    }
+    
+    .portfolio-item img {
+      width: 100%;
+      height: 350px;
+      object-fit: cover;
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .portfolio-item:hover img {
+      transform: scale(1.1);
+    }
+    
+    .portfolio-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(10px);
+      padding: 20px;
+      color: white;
+      transform: translateY(100%);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .portfolio-item:hover .portfolio-caption {
+      transform: translateY(0);
+    }
+    
+    .portfolio-title {
+      font-size: 24px;
+      margin-bottom: 10px;
+      color: #42c6ff;
+    }
+    
+    .portfolio-category {
+      font-size: 14px;
+      color: #ffffff;
+      opacity: 0.8;
+    }
+    
+    .section-title {
+      text-align: center;
+      font-size: 48px;
+      margin-top: 120px;
+      color: #42c6ff;
+      text-shadow: 0 0 20px rgba(66, 198, 255, 0.5);
+    }
+    
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .portfolio-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .portfolio-description {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #e0e0e0;
+      line-height: 1.4;
+    }
+    
+    .welcome-notification {
+      position: fixed;
+      top: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.8);
+      color: #fff;
+      padding: 15px 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      z-index: 1001;
+      animation: slideDown 1s forwards, fadeOut 1s 9s forwards;
+    }
+    
+    .welcome-notification::after {
+      content: '';
+      display: block;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(to right, #42c6ff, #42c6ff);
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      border-radius: 0 0 10px 10px;
+      animation: progressBar 10s linear forwards;
+    }
+    
+    .warning-message {
+      display: none;
+      position: fixed;
+      top: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 0, 0, 0.8);
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 5px;
+      z-index: 1003;
+    }
+    
+    @keyframes slideDown {
+      from { top: -50px; opacity: 0; }
+      to { top: 40px; opacity: 1; }
+    }
+    
+    @keyframes fadeOut {
+      from { opacity: 1; }
+      to { opacity: 0; }
+    }
+    
+    @keyframes progressBar {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+    
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      justify-content: center;
+      align-items: center;
+      z-index: 1004;
+    }
+    
+    .modal .content {
+      position: relative;
+      max-width: 90%;
+      max-height: 90%;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      padding: 20px;
+      border-radius: 10px;
+      overflow: auto;
+      color: white;
+    }
+    
+    .modal .close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 30px;
+      color: white;
+      cursor: pointer;
+    }
+    
+    .blurred {
+      filter: blur(5px);
+    }
+  </style>
+</head>
+<body>
+  <div class="welcome-notification">Welcome to Photography Portfolio</div>
+  <div class="warning-message" id="warning-message">Oops, you're already here!</div>
+  
+  <nav style="padding: 30px 60px;">
+    <div class="logo">Photography</div>
+    <div class="nav-links">
+      <a href="index.html" onclick="checkCurrentPage(event, 'index.html')">Home</a>
+      <a href="index.html#compositional-strategies">Compositional Strategies</a>
+      <a href="photosafari1.html" target="_blank">Photo Safari</a>
+      <a href="port.html" class="active" onclick="checkCurrentPage(event, 'port.html')">Portfolio</a>
+    </div>
+  </nav>
+  
+  <div class="section-title">Photography Portfolio</div>
+  
+  <div class="portfolio-grid">
+    <div class="portfolio-item" style="--item-index: 1;">
+      <img src="me.jpg" alt="Favorite Photo of Myself">
+      <div class="portfolio-caption">
+        <h3 class="portfolio-title">Favorite Photo of Myself</h3>
+        <div class="portfolio-category">Personal Photography</div>
+        <p class="portfolio-description">My favorite photo of myself when I was a child.</p>
+      </div>
+    </div>
+    
+    <div class="portfolio-item" style="--item-index: 2;">
+      <img src="childhood.jpg" alt="A Photo That Embodies My Childhood">
+      <div class="portfolio-caption">
+        <h3 class="portfolio-title">A Photo That Embodies My Childhood</h3>
+        <div class="portfolio-category">Childhood Memories</div>
+        <p class="portfolio-description">I am different from others, I love nature, climbing, medicine. Because I usually stick around with 3 things. I am so interested into climbing mountains, watching surgery videos and learn from them. I love nature so much!</p>
+      </div>
+    </div>
+    
+    <div class="portfolio-item" style="--item-index: 3;">
+      <img src="hos.jpg" alt="A Photo of My Favorite Place">
+      <div class="portfolio-caption">
+        <h3 class="portfolio-title">A Photo of My Favorite Place</h3>
+        <div class="portfolio-category">Favorite Places</div>
+        <p class="portfolio-description">I love people and its my most favorite place, I enjoy doing kind things in the emergency department. As this place holds the kindest and nicest nurses, that's why it's the best and favorite place.</p>
+      </div>
+    </div>
+    
+    <div class="portfolio-item" style="--item-index: 4;">
+      <img src="itook.jpg" alt="A Photo That I Took/Captured">
+      <div class="portfolio-caption">
+        <h3 class="portfolio-title">A Photo That I Took/Captured</h3>
+        <div class="portfolio-category">My Photography</div>
+        <p class="portfolio-description">One of my top tier photos I captured, during july of 2024. This was at a beach I would say one of the best sunsets I've ever captured. Golden hour moment, I have plenty of sunsets, sunrises photos. It was a good background with the ocean and waves.</p>
+      </div>
+    </div>
+    
+    <div class="portfolio-item" style="--item-index: 5;">
+      <img src="annapurna.jpg" alt="A Photo That Evokes an Emotion">
+      <div class="portfolio-caption">
+        <h3 class="portfolio-title">A Photo That Evokes an Emotion</h3>
+        <div class="portfolio-category">Emotional Photography</div>
+        <p class="portfolio-description">Don't know how to describe it, but this special mountain is very hard to climb. Every two people who summit one dies trying. As this mountain has avalanches, rock falls, and very steep pitches. Making this mountain very hard to climb and most people attempt climbing die.</p>
+      </div>
+    </div>
+    
+    <div class="portfolio-item" style="--item-index: 6;">
+      <img src="mh.jpg" alt="A Black and White Photo That I Love">
+      <div class="portfolio-caption">
+        <h3 class="portfolio-title">A Black and White Photo That I Love</h3>
+        <div class="portfolio-category">Black and White Photography</div>
+        <p class="portfolio-description">This is the best black and white photo I ever found, it matches the style, but I really like it as it shows the mountain. Credits to the orginally owner.</p>
+      </div>
+    </div>
+    
+    <div class="portfolio-item" style="--item-index: 7;">
+      <img src="k2.webp" alt="A Professional Photo That Captured My Attention">
+      <div class="portfolio-caption">
+        <h3 class="portfolio-title">A Professional Photo That Captured My Attention</h3>
+        <div class="portfolio-category">Professional Photography</div>
+        <p class="portfolio-description">Worlds hardest mountain, known as K2 every 4 people who summit 1 dies trying. My dream to climb this mountain always my favorite mountain. It belongs at this catagory because the mountain has beautiful sharp edges.</p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="modal" id="imageModal">
+    <div class="content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+  
+  <div class="dynamic-background">
+    <!-- Background elements will be added by JavaScript -->
+  </div>
+  <div class="grid-background">
+    <!-- Grid background will be added by JavaScript -->
+  </div>
+  
+  <script src="script.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Create dynamic orbs for background
+      const dynamicBackground = document.querySelector('.dynamic-background');
+      
+      // Add orbs that float around
+      for (let i = 0; i < 10; i++) {
+        const orb = document.createElement('div');
+        orb.className = 'gradient-orb';
+        orb.style.width = `${200 + Math.random() * 400}px`;
+        orb.style.height = orb.style.width;
+        orb.style.left = `${Math.random() * 100}%`;
+        orb.style.top = `${Math.random() * 100}%`;
+        orb.style.animationDelay = `${Math.random() * 5}s`;
+        orb.style.animationDuration = `${15 + Math.random() * 15}s`;
+        orb.style.mixBlendMode = ['screen', 'overlay', 'color-dodge'][Math.floor(Math.random() * 3)];
+        orb.style.filter = `blur(${50 + Math.random() * 50}px) hue-rotate(${Math.random() * 360}deg)`;
+        dynamicBackground.appendChild(orb);
+      }
+      
+      // Add scroll animation for portfolio items
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.animationPlayState = 'running';
+          }
+        });
+      }, { threshold: 0.1 });
+      
+      document.querySelectorAll('.portfolio-item').forEach(item => {
+        item.style.animationPlayState = 'paused';
+        observer.observe(item);
+      });
+      
+      // Modal and portfolio item click functionality
+      document.querySelectorAll('.portfolio-item').forEach(item => {
+        item.addEventListener('click', function() {
+          const modal = document.getElementById('imageModal');
+          const modalContent = document.getElementById('modalContent');
+          modalContent.innerHTML = this.innerHTML;
+          modal.style.display = 'flex';
+          document.querySelectorAll('.portfolio-item').forEach(b => b.classList.add('blurred'));
+        });
+      });
+    });
+    
+    function closeModal() {
+      const modal = document.getElementById('imageModal');
+      modal.style.display = 'none';
+      document.querySelectorAll('.portfolio-item').forEach(box => {
+        box.classList.remove('blurred');
+      });
+    }
+    
+    function checkCurrentPage(event, page) {
+      if (window.location.pathname.endsWith(page)) {
+        event.preventDefault();
+        const warningMessage = document.getElementById('warning-message');
+        warningMessage.style.display = 'block';
+        setTimeout(() => {
+          warningMessage.style.display = 'none';
+        }, 2000);
+      }
+    }
+    
+    // Add background position animation on mouse move
+    document.addEventListener("mousemove", function(event) {
+      const body = document.body;
+      const height = window.innerHeight;
+      const width = window.innerWidth;
+      const moveX = (event.clientX / width) * 10;
+      const moveY = (event.clientY / height) * 10;
+      body.style.backgroundPosition = `${moveX}% ${moveY}%`;
+    });
+  </script>
+</body>
+</html>
