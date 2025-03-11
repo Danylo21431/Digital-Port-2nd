@@ -1,428 +1,639 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
-  <title>Photo Safari</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Photo Safari | Wildlife Photography</title>
   <link href="style.css" rel="stylesheet" type="text/css" />
   <style>
-    /* PhotoSafari page specific styles */
-    .safari-section {
-      margin: 120px 0;
-      opacity: 0;
-      transform: translateY(30px);
-      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-      padding: 40px;
-      background: rgba(26, 26, 26, 0.6);
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-      animation: fadeInUp 1s forwards;
-      animation-delay: calc(var(--section-index) * 0.3s);
-    }
-    
-    .safari-section h2 {
-      color: #42c6ff;
-      font-size: 32px;
-      margin-bottom: 30px;
-      text-align: center;
-      position: relative;
-      animation: rainbowText 3s linear infinite;
-    }
-    
-    .safari-section h2::after {
-      content: '';
-      position: absolute;
-      bottom: -10px;
-      left: 0;
-      width: 0;
-      height: 3px;
-      background: #42c6ff;
-      transition: width 0.8s ease-out;
-      animation: lineGrow 1.5s forwards;
-      animation-delay: calc(var(--section-index) * 0.3s + 0.5s);
-    }
-    
-    @keyframes lineGrow {
-      to { width: 100%; }
-    }
-    
-    .safari-content {
-      display: flex;
-      flex-direction: column;
-      gap: 30px;
-    }
-    
-    .safari-text {
-      font-size: 18px;
+    /* Clean, professional photo gallery styles */
+    body {
+      background-color: #0a0a0a;
+      color: #f5f5f5;
+      font-family: Arial, sans-serif;
       line-height: 1.6;
-      color: #e0e0e0;
-      text-align: center;
-      max-width: 800px;
+    }
+    
+    .container {
+      max-width: 1400px;
       margin: 0 auto;
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fadeInUp 1s forwards;
-      animation-delay: calc(var(--section-index) * 0.3s + 0.3s);
+      padding: 100px 20px 60px;
     }
     
-    .safari-photos {
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
+    .header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    
+    .title {
+      font-size: 2.8rem;
+      color: #f5f5f5;
+      margin-bottom: 20px;
+    }
+    
+    .subtitle {
+      font-size: 1.1rem;
+      color: #a0a0a0;
+      max-width: 700px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+    
+    .instructions {
+      margin: 40px auto;
+      max-width: 800px;
+      background: rgba(26, 26, 26, 0.4);
+      padding: 25px;
+      border-radius: 8px;
+      border: 1px solid rgba(66, 198, 255, 0.2);
+    }
+
+    .instructions h3 {
+      color: #42c6ff;
+      margin-bottom: 15px;
+      font-size: 1.2rem;
+    }
+
+    .instructions ol {
+      margin-left: 20px;
+      color: #c0c0c0;
+      line-height: 1.6;
+    }
+
+    .instructions li {
+      margin-bottom: 10px;
+    }
+
+    .instructions code {
+      background: rgba(0, 0, 0, 0.3);
+      padding: 3px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+      color: #f5f5f5;
+    }
+    
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
       gap: 30px;
-      margin-top: 30px;
+      margin-bottom: 60px;
     }
     
-    .safari-photo {
-      flex: 1;
-      min-width: 300px;
+    .photo-box {
       position: relative;
       overflow: hidden;
-      border-radius: 15px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-      opacity: 0;
-      transform: translateY(30px);
-      animation: fadeInUp 1s forwards;
-      animation-delay: calc(var(--section-index) * 0.3s + var(--photo-index) * 0.2s + 0.6s);
-      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      border-radius: 8px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      aspect-ratio: 3/2;
+      background-color: #1a1a1a;
+      transition: all 0.4s ease;
+      border: 2px dashed rgba(66, 198, 255, 0.3);
     }
     
-    .safari-photo:hover {
-      transform: scale(1.05);
-      box-shadow: 0 20px 40px rgba(66, 198, 255, 0.4);
-      z-index: 10;
+    .photo-box:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 40px rgba(66, 198, 255, 0.3);
+      border: 2px solid rgba(66, 198, 255, 0.8);
     }
     
-    .safari-photo img {
-      width: 100%;
-      height: 300px;
-      object-fit: cover;
-      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    
-    .safari-photo:hover img {
-      transform: scale(1.1);
-    }
-    
-    .safari-photo::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
+    .photo-box img {
       width: 100%;
       height: 100%;
-      background: linear-gradient(45deg, rgba(66, 198, 255, 0.2), transparent);
-      opacity: 0;
-      transition: opacity 0.3s;
+      object-fit: cover;
+      transition: transform 0.5s ease;
     }
     
-    .safari-photo:hover::after {
-      opacity: 1;
+    .photo-box:hover img {
+      transform: scale(1.05);
     }
     
-    .home-btn {
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
-      background: linear-gradient(45deg, rgba(66, 198, 255, 0.7), rgba(42, 123, 255, 0.7));
-      color: white;
-      border: none;
-      padding: 15px 30px;
-      border-radius: 30px;
-      font-size: 18px;
-      cursor: pointer;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 5px 15px rgba(66, 198, 255, 0.3), 0 0 30px rgba(66, 198, 255, 0.3);
-      z-index: 1000;
-      text-decoration: none;
+    .photo-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+      padding: 20px;
+      transform: translateY(100%);
+      transition: transform 0.4s ease;
+    }
+    
+    .photo-box:hover .photo-overlay {
+      transform: translateY(0);
+    }
+    
+    .photo-title {
+      color: #ffffff;
+      font-size: 1.2rem;
+      margin-bottom: 8px;
+    }
+    
+    .photo-description {
+      color: #c0c0c0;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+    
+    .box-number {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      width: 30px;
+      height: 30px;
+      background: rgba(66, 198, 255, 0.8);
+      border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      backdrop-filter: blur(10px);
-      animation: float 4s ease-in-out infinite;
+      font-size: 1rem;
+      font-weight: bold;
+      color: #0a0a0a;
+      z-index: 10;
     }
     
-    .home-btn:hover {
-      transform: translateY(-10px) scale(1.1);
-      box-shadow: 0 15px 30px rgba(66, 198, 255, 0.6), 0 0 60px rgba(66, 198, 255, 0.4);
+    
+    
+    nav {
+      display: flex;
+      justify-content: space-between;
+      padding: 20px 40px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(10, 10, 10, 0.8);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      border-bottom: 1px solid rgba(66, 198, 255, 0.1);
     }
+    
+    .logo {
+      color: #f5f5f5;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    
+    .nav-links a {
+      color: #f5f5f5;
+      text-decoration: none;
+      margin-left: 20px;
+      transition: color 0.3s ease;
+    }
+    
+    .nav-links a:hover {
+      color: #42c6ff;
+    }
+    
+    .nav-links a.active {
+      color: #42c6ff;
+    }
+    
+    /* Cool animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  }
+  50% {
+    transform: scale(1.02);
+    box-shadow: 0 15px 40px rgba(66, 198, 255, 0.4);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes borderGlow {
+  0%, 100% {
+    border-color: rgba(66, 198, 255, 0.3);
+    box-shadow: 0 0 10px rgba(66, 198, 255, 0.1);
+  }
+  50% {
+    border-color: rgba(66, 198, 255, 0.8);
+    box-shadow: 0 0 20px rgba(66, 198, 255, 0.4);
+  }
+}
+
+/* Background animation */
+.animated-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background: radial-gradient(circle at 50% 50%, #1a1a1a, #0a0a0a);
+  overflow: hidden;
+}
+
+.animated-bg::before {
+  content: '';
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  top: -50%;
+  left: -50%;
+  background: radial-gradient(circle at center, transparent 0%, transparent 40%, rgba(66, 198, 255, 0.05) 50%, transparent 60%, transparent 100%);
+  animation: rotate 60s linear infinite;
+}
+
+.animated-bg::after {
+  content: '';
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  top: -50%;
+  left: -50%;
+  background: radial-gradient(circle at center, transparent 0%, transparent 35%, rgba(255, 66, 227, 0.03) 45%, transparent 55%, transparent 100%);
+  animation: rotate 40s linear infinite reverse;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Apply animations to elements */
+.photo-box {
+  opacity: 0;
+  animation: fadeInUp 0.8s forwards;
+  animation-delay: calc(0.1s * var(--index, 0));
+  transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.photo-box:hover {
+  transform: translateY(-15px) scale(1.03);
+  box-shadow: 0 20px 40px rgba(66, 198, 255, 0.4);
+  border: 2px solid rgba(66, 198, 255, 0.8);
+  z-index: 10;
+}
+
+.photo-box::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(120deg, 
+    rgba(255, 255, 255, 0) 30%, 
+    rgba(255, 255, 255, 0.1) 38%, 
+    rgba(255, 255, 255, 0.1) 40%, 
+    rgba(255, 255, 255, 0) 48%);
+  background-size: 200% 100%;
+  animation: shimmer 3s infinite;
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 1;
+}
+
+.photo-box:hover::before {
+  opacity: 1;
+}
+
+.photo-box img {
+  transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.photo-box:hover img {
+  transform: scale(1.1);
+}
+
+.box-number {
+  transition: all 0.3s ease;
+  animation: fadeInScale 0.5s forwards;
+  animation-delay: calc(0.2s + (0.1s * var(--index, 0)));
+}
+
+.photo-box:hover .box-number {
+  transform: scale(1.2);
+  background: rgba(66, 198, 255, 1);
+  box-shadow: 0 0 15px rgba(66, 198, 255, 0.7);
+}
+
+.photo-overlay {
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.title {
+  animation: fadeInUp 0.8s forwards;
+}
+
+.subtitle {
+  animation: fadeInUp 0.8s forwards;
+  animation-delay: 0.2s;
+}
+
+.instructions {
+  animation: fadeInUp 0.8s forwards;
+  animation-delay: 0.4s;
+  transition: all 0.5s ease;
+}
+
+.instructions:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  border-color: rgba(66, 198, 255, 0.4);
+}
+    
+    /* Responsive adjustments */
     @media (max-width: 768px) {
-      .safari-photos {
-        flex-direction: column;
+      .container {
+        padding: 80px 15px 40px;
       }
       
-      .safari-photo {
-        width: 100%;
+      .title {
+        font-size: 2.2rem;
       }
       
-      .home-btn {
-        bottom: 20px;
-        right: 20px;
-        padding: 12px 24px;
-        font-size: 16px;
+      .photo-grid {
+        gap: 20px;
+      }
+      
+      nav {
+        padding: 15px 20px;
+      }
+      
+      .logo {
+        font-size: 1.2rem;
       }
     }
   </style>
 </head>
 <body>
+  <div class="animated-bg"></div>
   <nav>
     <div class="logo">Photography</div>
     <div class="nav-links">
       <a href="index.html">Home</a>
-      <a href="photosafari.html" class="active">PhotoSafari</a>
+      <a href="photosafari1.html" class="active">Photo Safari</a>
     </div>
   </nav>
   
-  <main>
-    <section class="safari-section" style="--section-index: 1;">
-      <h2>Wildlife in Motion</h2>
-      <div class="safari-content">
-        <p class="safari-text">Capturing the raw energy and movement of animals in their natural habitat requires patience, timing, and a deep understanding of animal behavior.</p>
-        <div class="safari-photos">
-          <div class="safari-photo" style="--photo-index: 1;">
-            <img src="https://images.unsplash.com/photo-1546182990-dffeafbe841d" alt="Cheetah Running">
-          </div>
-          <div class="safari-photo" style="--photo-index: 2;">
-            <img src="https://images.unsplash.com/photo-1551972251-f39e2a6854c3" alt="Birds in Flight">
-          </div>
+  <div class="container">
+    <header class="header">
+      <h1 class="title">Your Wildlife Photo Collection</h1>
+      <p class="subtitle">A professional showcase for your wildlife photography. Add your own photos to create a stunning gallery.</p>
+    </header>
+    
+    <div class="photo-grid">
+      <!-- Photo Box 1 -->
+      <div class="photo-box">
+        <div class="box-number">1</div>
+        <img src="https://via.placeholder.com/800x600/1a1a1a/42c6ff?text=Add+Your+Photo" alt="Your Wildlife Photo">
+        <div class="photo-overlay">
+          <h3 class="photo-title">Your Photo Title</h3>
+          <p class="photo-description">Add your description here. Describe the subject, location, and any interesting details about this photo.</p>
         </div>
       </div>
-    </section>
-
-    <section class="safari-section" style="--section-index: 2;">
-      <h2>Remote Landscapes</h2>
-      <div class="safari-content">
-        <p class="safari-text">The stunning, untouched landscapes of remote wilderness areas create breathtaking backdrops for wildlife photography and inspire a sense of adventure.</p>
-        <div class="safari-photos">
-          <div class="safari-photo" style="--photo-index: 1;">
-            <img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800" alt="Mountain Range">
-          </div>
-          <div class="safari-photo" style="--photo-index: 2;">
-            <img src="https://images.unsplash.com/photo-1506260408121-e353d10b87c7" alt="Serengeti Plains">
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="safari-section" style="--section-index: 3;">
-      <h2>Predator and Prey</h2>
-      <div class="safari-content">
-        <p class="safari-text">The delicate balance between predator and prey creates some of the most dramatic and emotional moments in wildlife photography, telling stories of survival and adaptation.</p>
-        <div class="safari-photos">
-          <div class="safari-photo" style="--photo-index: 1;">
-            <img src="https://images.unsplash.com/photo-1501705388883-4ed8a543392a" alt="Lion Hunting">
-          </div>
-          <div class="safari-photo" style="--photo-index: 2;">
-            <img src="https://images.unsplash.com/photo-1504006833117-8886a355efbf" alt="Gazelle Grazing">
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="safari-section" style="--section-index: 4;">
-      <h2>Underwater Worlds</h2>
-      <div class="safari-content">
-        <p class="safari-text">Beneath the surface lies a whole different realm of photographic opportunities, with vibrant colors, unique textures, and otherworldly creatures.</p>
-        <div class="safari-photos">
-          <div class="safari-photo" style="--photo-index: 1;">
-            <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5" alt="Coral Reef">
-          </div>
-          <div class="safari-photo" style="--photo-index: 2;">
-            <img src="https://images.unsplash.com/photo-1520302659201-7896a931ef2c" alt="Marine Life">
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="safari-section" style="--section-index: 5;">
-      <h2>Rare Species</h2>
-      <div class="safari-content">
-        <p class="safari-text">Documenting rare and endangered species not only creates compelling photography but also raises awareness for conservation efforts around the globe.</p>
-        <div class="safari-photos">
-          <div class="safari-photo" style="--photo-index: 1;">
-            <img src="https://images.unsplash.com/photo-1543946207-39bd91e70ca7" alt="Snow Leopard">
-          </div>
-          <div class="safari-photo" style="--photo-index: 2;">
-            <img src="https://images.unsplash.com/photo-1535338454770-8be927b5a00b" alt="Mountain Gorilla">
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="safari-section" style="--section-index: 6;">
-      <h2>Night Safari</h2>
-      <div class="safari-content">
-        <p class="safari-text">When darkness falls, a completely different cast of characters emerges, presenting unique challenges and rewards for the dedicated wildlife photographer.</p>
-        <div class="safari-photos">
-          <div class="safari-photo" style="--photo-index: 1;">
-            <img src="https://images.unsplash.com/photo-1533792344354-e85bacf07dde" alt="Owl at Night">
-          </div>
-          <div class="safari-photo" style="--photo-index: 2;">
-            <img src="https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b" alt="Night Hunting">
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="safari-section" style="--section-index: 7;">
-      <h2>Weather Elements</h2>
-      <div class="safari-content">
-        <p class="safari-text">Dramatic weather conditions can transform ordinary scenes into extraordinary photographs, adding mood, atmosphere, and a sense of the wild's unpredictable nature.</p>
-        <div class="safari-photos">
-          <div class="safari-photo" style="--photo-index: 1;">
-            <img src="https://images.unsplash.com/photo-1498354136128-58f790194fa7" alt="Stormy Skies">
-          </div>
-          <div class="safari-photo" style="--photo-index: 2;">
-            <img src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e" alt="Misty Forest">
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="safari-section" style="--section-index: 8;">
-      <h2>Intimate Portraits</h2>
-      <div class="safari-content">
-        <p class="safari-text">Close-up portraits of wildlife can reveal the soul and character of an animal, creating a connection between the subject and the viewer that transcends the photograph itself.</p>
-        <div class="safari-photos">
-          <div class="safari-photo" style="--photo-index: 1;">
-            <img src="https://images.unsplash.com/photo-1564349683136-77e08dba1ef7" alt="Lion Portrait">
-          </div>
-          <div class="safari-photo" style="--photo-index: 2;">
-            <img src="https://images.unsplash.com/photo-1474511320723-9a56873867b5" alt="Fox Portrait">
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <div class="dynamic-background">
-    <!-- Background elements from main site -->
-  </div>
-  <div class="grid-background">
-    <!-- Grid background from main site -->
-  </div>
-
-  <a href="index.html" class="home-btn">Return to Home</a>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      // Create dynamic background with orbs
-      const dynamicBackground = document.querySelector('.dynamic-background');
       
-      // Add orbs that float around
-      for (let i = 0; i < 10; i++) {
-        const orb = document.createElement('div');
-        orb.className = 'gradient-orb';
-        orb.style.width = `${200 + Math.random() * 400}px`;
-        orb.style.height = orb.style.width;
-        orb.style.left = `${Math.random() * 100}%`;
-        orb.style.top = `${Math.random() * 100}%`;
-        orb.style.animationDelay = `${Math.random() * 5}s`;
-        orb.style.animationDuration = `${15 + Math.random() * 15}s`;
-        orb.style.mixBlendMode = ['screen', 'overlay', 'color-dodge'][Math.floor(Math.random() * 3)];
-        orb.style.filter = `blur(${50 + Math.random() * 50}px) hue-rotate(${Math.random() * 360}deg)`;
-        dynamicBackground.appendChild(orb);
-      }
-
-      // Add geometric floating shapes
-      const geoShapes = document.createElement('div');
-      geoShapes.className = 'geo-shapes';
-      document.body.appendChild(geoShapes);
-
-      // Create various geometric shapes
-      const shapes = ['triangle', 'circle', 'square'];
-      const colors = ['#42c6ff', '#ff42e3', '#fffc42', '#42ffbd', '#ff6b42'];
-
-      for (let i = 0; i < 15; i++) {
-        const shape = document.createElement('div');
-        const shapeClass = shapes[Math.floor(Math.random() * shapes.length)];
-        shape.className = `geo-shape ${shapeClass}`;
-
-        if (shapeClass === 'triangle') {
-          shape.style.borderBottomColor = colors[Math.floor(Math.random() * colors.length)];
-        } else {
-          shape.style.background = `linear-gradient(${Math.random() * 360}deg, ${colors[Math.floor(Math.random() * colors.length)]}, ${colors[Math.floor(Math.random() * colors.length)]})`;
-        }
-
-        const size = 50 + Math.floor(Math.random() * 150);
-        if (shapeClass === 'circle' || shapeClass === 'square') {
-          shape.style.width = `${size}px`;
-          shape.style.height = `${size}px`;
-        } else if (shapeClass === 'triangle') {
-          shape.style.borderLeftWidth = `${size/2}px`;
-          shape.style.borderRightWidth = `${size/2}px`;
-          shape.style.borderBottomWidth = `${size}px`;
-        }
-
-        shape.style.left = `${Math.random() * 100}%`;
-        shape.style.top = `${Math.random() * 100}%`;
-        shape.style.animationDelay = `${Math.random() * 8}s`;
-        shape.style.animationDuration = `${20 + Math.random() * 20}s`;
-        shape.style.opacity = 0.1 + Math.random() * 0.2;
-
-        geoShapes.appendChild(shape);
-      }
-
-      // Add shockwave effect on mouse click
-      document.addEventListener('click', (e) => {
-        const shockWave = document.createElement('div');
-        shockWave.style.position = 'fixed';
-        shockWave.style.top = `${e.clientY}px`;
-        shockWave.style.left = `${e.clientX}px`;
-        shockWave.style.transform = 'translate(-50%, -50%)';
-        shockWave.style.width = '10px';
-        shockWave.style.height = '10px';
-        shockWave.style.borderRadius = '50%';
-        shockWave.style.background = 'transparent';
-        shockWave.style.border = '2px solid rgba(66, 198, 255, 0.8)';
-        shockWave.style.zIndex = '9998';
-        shockWave.style.pointerEvents = 'none';
-
-        document.body.appendChild(shockWave);
-
-        // Animate the shockwave
-        let size = 0;
-        let opacity = 1;
-
-        const shockwaveAnimation = setInterval(() => {
-          size += 10;
-          opacity -= 0.02;
-
-          shockWave.style.width = `${size}px`;
-          shockWave.style.height = `${size}px`;
-          shockWave.style.opacity = opacity;
-          shockWave.style.borderWidth = `${Math.max(1, 5 - size/50)}px`;
-
-          if (opacity <= 0) {
-            clearInterval(shockwaveAnimation);
-            document.body.removeChild(shockWave);
-          }
-        }, 10);
-      });
-
-      // Initialize intersection observer for animations
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-            
-            // Add section-specific animations
-            const sectionIndex = entry.target.style.getPropertyValue('--section-index');
-            entry.target.style.animationDelay = `${sectionIndex * 0.2}s`;
+      <!-- Photo Box 2 -->
+      <div class="photo-box">
+        <div class="box-number">2</div>
+        <img src="https://via.placeholder.com/800x600/1a1a1a/42c6ff?text=Add+Your+Photo" alt="Your Wildlife Photo">
+        <div class="photo-overlay">
+          <h3 class="photo-title">Your Photo Title</h3>
+          <p class="photo-description">Add your description here. Describe the subject, location, and any interesting details about this photo.</p>
+        </div>
+      </div>
+      
+      <!-- Photo Box 3 -->
+      <div class="photo-box">
+        <div class="box-number">3</div>
+        <img src="https://via.placeholder.com/800x600/1a1a1a/42c6ff?text=Add+Your+Photo" alt="Your Wildlife Photo">
+        <div class="photo-overlay">
+          <h3 class="photo-title">Your Photo Title</h3>
+          <p class="photo-description">Add your description here. Describe the subject, location, and any interesting details about this photo.</p>
+        </div>
+      </div>
+      
+      <!-- Photo Box 4 -->
+      <div class="photo-box">
+        <div class="box-number">4</div>
+        <img src="https://via.placeholder.com/800x600/1a1a1a/42c6ff?text=Add+Your+Photo" alt="Your Wildlife Photo">
+        <div class="photo-overlay">
+          <h3 class="photo-title">Your Photo Title</h3>
+          <p class="photo-description">Add your description here. Describe the subject, location, and any interesting details about this photo.</p>
+        </div>
+      </div>
+      
+      <!-- Photo Box 5 -->
+      <div class="photo-box">
+        <div class="box-number">5</div>
+        <img src="https://via.placeholder.com/800x600/1a1a1a/42c6ff?text=Add+Your+Photo" alt="Your Wildlife Photo">
+        <div class="photo-overlay">
+          <h3 class="photo-title">Your Photo Title</h3>
+          <p class="photo-description">Add your description here. Describe the subject, location, and any interesting details about this photo.</p>
+        </div>
+      </div>
+      
+      <!-- Photo Box 6 -->
+      <div class="photo-box">
+        <div class="box-number">6</div>
+        <img src="https://via.placeholder.com/800x600/1a1a1a/42c6ff?text=Add+Your+Photo" alt="Your Wildlife Photo">
+        <div class="photo-overlay">
+          <h3 class="photo-title">Your Photo Title</h3>
+          <p class="photo-description">Add your description here. Describe the subject, location, and any interesting details about this photo.</p>
+        </div>
+      </div>
+      
+      <!-- Photo Box 7 -->
+      <div class="photo-box">
+        <div class="box-number">7</div>
+        <img src="https://via.placeholder.com/800x600/1a1a1a/42c6ff?text=Add+Your+Photo" alt="Your Wildlife Photo">
+        <div class="photo-overlay">
+          <h3 class="photo-title">Your Photo Title</h3>
+          <p class="photo-description">Add your description here. Describe the subject, location, and any interesting details about this photo.</p>
+        </div>
+      </div>
+      
+      <!-- Photo Box 8 -->
+      <div class="photo-box">
+        <div class="box-number">8</div>
+        <img src="https://via.placeholder.com/800x600/1a1a1a/42c6ff?text=Add+Your+Photo" alt="Your Wildlife Photo">
+        <div class="photo-overlay">
+          <h3 class="photo-title">Your Photo Title</h3>
+          <p class="photo-description">Add your description here. Describe the subject, location, and any interesting details about this photo.</p>
+        </div>
+      </div>
+      
+      <!-- Photo Box 9 -->
+      <div class="photo-box">
+        <div class="box-number">9</div>
+        <img src="https://via.placeholder.com/800x600/1a1a1a/42c6ff?text=Add+Your+Photo" alt="Your Wildlife Photo">
+        <div class="photo-overlay">
+          <h3 class="photo-title">Your Photo Title</h3>
+          <p class="photo-description">Add your description here. Describe the subject, location, and any interesting details about this photo.</p>
+        </div>
+      </div>
+      
+      <!-- Photo Box 10 -->
+      <div class="photo-box">
+        <div class="box-number">10</div>
+        <img src="https://via.placeholder.com/800x600/1a1a1a/42c6ff?text=Add+Your+Photo" alt="Your Wildlife Photo">
+        <div class="photo-overlay">
+          <h3 class="photo-title">Your Photo Title</h3>
+          <p class="photo-description">Add your description here. Describe the subject, location, and any interesting details about this photo.</p>
+        </div>
+      </div>
+      
+      <!-- Photo Box 11 -->
+      <div class="photo-box">
+        <div class="box-number">11</div>
+        <img src="https://via.placeholder.com/800x600/1a1a1a/42c6ff?text=Add+Your+Photo" alt="Your Wildlife Photo">
+        <div class="photo-overlay">
+          <h3 class="photo-title">Your Photo Title</h3>
+          <p class="photo-description">Add your description here. Describe the subject, location, and any interesting details about this photo.</p>
+        </div>
+      </div>
+      
+      <!-- Photo Box 12 -->
+      <div class="photo-box">
+        <div class="box-number">12</div>
+        <img src="https://via.placeholder.com/800x600/1a1a1a/42c6ff?text=Add+Your+Photo" alt="Your Wildlife Photo">
+        <div class="photo-overlay">
+          <h3 class="photo-title">Your Photo Title</h3>
+          <p class="photo-description">Add your description here. Describe the subject, location, and any interesting details about this photo.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Set animation index for staggered animations
+    const photoBoxes = document.querySelectorAll('.photo-box');
+    
+    photoBoxes.forEach((box, index) => {
+      // Set custom property for staggered animations
+      box.style.setProperty('--index', index);
+      
+      // Add hover animation
+      box.addEventListener('mouseenter', function() {
+        const nearbyBoxes = document.querySelectorAll('.photo-box');
+        nearbyBoxes.forEach(nearBox => {
+          if (nearBox !== box) {
+            nearBox.style.transform = 'scale(0.98) translateY(0)';
+            nearBox.style.filter = 'brightness(0.8)';
+            nearBox.style.zIndex = '1';
           }
         });
-      }, { 
-        threshold: 0.2,
-        rootMargin: '0px 0px 100px 0px'
       });
-
-      // Observe all safari sections
-      document.querySelectorAll('.safari-section').forEach(section => {
-        observer.observe(section);
+      
+      box.addEventListener('mouseleave', function() {
+        const allBoxes = document.querySelectorAll('.photo-box');
+        allBoxes.forEach(anyBox => {
+          if (anyBox !== box) {
+            anyBox.style.transform = '';
+            anyBox.style.filter = '';
+            anyBox.style.zIndex = '';
+          }
+        });
       });
     });
-  </script>
+    
+    // Animate on scroll
+    const animateOnScroll = function() {
+      const boxes = document.querySelectorAll('.photo-box');
+      boxes.forEach(box => {
+        const boxTop = box.getBoundingClientRect().top;
+        const boxBottom = box.getBoundingClientRect().bottom;
+        const windowHeight = window.innerHeight;
+        
+        if (boxTop < windowHeight * 0.9 && boxBottom > 0) {
+          box.style.animationPlayState = 'running';
+        } else {
+          box.style.opacity = '0';
+          box.style.transform = 'translateY(40px)';
+        }
+      });
+    };
+    
+    // Initial check
+    animateOnScroll();
+    
+    // Check on scroll
+    window.addEventListener('scroll', animateOnScroll);
+    
+    // Add subtle floating animation to visible boxes
+    setInterval(() => {
+      const visibleBoxes = Array.from(document.querySelectorAll('.photo-box')).filter(
+        box => box.style.opacity === '1'
+      );
+      
+      if (visibleBoxes.length > 0) {
+        const randomBox = visibleBoxes[Math.floor(Math.random() * visibleBoxes.length)];
+        randomBox.style.animation = 'pulse 2s ease-in-out';
+        
+        setTimeout(() => {
+          randomBox.style.animation = '';
+        }, 2000);
+      }
+    }, 3000);
+    
+    // Add parallax effect on mouse move
+    const container = document.querySelector('.container');
+    container.addEventListener('mousemove', (e) => {
+      const mouseX = e.clientX / window.innerWidth;
+      const mouseY = e.clientY / window.innerHeight;
+      
+      photoBoxes.forEach(box => {
+        const offsetX = (mouseX - 0.5) * 10;
+        const offsetY = (mouseY - 0.5) * 10;
+        const depth = parseFloat(box.style.getPropertyValue('--index')) * 0.2;
+        
+        box.style.transform = `translate(${offsetX * depth}px, ${offsetY * depth}px)`;
+      });
+    });
+    
+    container.addEventListener('mouseleave', () => {
+      photoBoxes.forEach(box => {
+        box.style.transform = '';
+      });
+    });
+  });
+</script>
 </body>
 </html>
+
