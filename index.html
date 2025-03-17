@@ -1,138 +1,30 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
-  <title>Photography</title>
-  <link href="style.css" rel="stylesheet" type="text/css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digital Photography</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <nav>
-    <div class="logo">Photography</div>
-    <div class="nav-links">
-      <a href="#" data-section="home" class="active">Home</a>
-      <a href="#" data-section="compositional-strategies">Compositional Strategies</a>
-      <a href="photosafari1.html" target="_blank">Photo Safari</a>
-      <a href="port.html">Portfolio</a>
+  <div class="hero" id="hero">
+    <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=2000" alt="Mountain">
+    <div class="scroll-indicator"></div>
+    <div class="hero-content">
+      <h1 class="hero-title">Capture The Moment</h1>
+      <p class="hero-subtitle">Exploring the art of digital photography</p>
+    </div>
+  </div>
+
+  <nav id="nav">
+    <div class="nav-container">
+      <a href="safari.html" class="nav-link">Photo Safari</a>
+      <a href="composition.html" class="nav-link">Composition</a>
+      <a href="macro.html" class="nav-link">Macro Light</a>
+      <a href="port.html" class="nav-link">About Me</a>
     </div>
   </nav>
-  <main>
-    <section id="home" class="active-section">
-      <div class="home-hero">
-        <h1 class="main-title">Photography</h1>
-        <p class="subtitle">Capturing very cool photos</p>
-        <div class="hero-description">
-          <p>Embark on a visual journey through my life</p>
-          <p>Discover cool tips on taking cool photos!</p>
-        </div>
-        <button class="explore-btn">Explore Techniques</button>
-      </div>
-      <div class="floating-images">
-        <div class="float-image img1"><img src="https://images.unsplash.com/photo-1575550959106-5a7defe28b56" alt="Wildlife"></div>
-        <div class="float-image img2"><img src="https://images.unsplash.com/photo-1502318217862-aa4e294ba657" alt="Wildlife"></div>
-        <div class="float-image img3"><img src="https://images.unsplash.com/photo-1494256997604-768d1f608cac" alt="Wildlife"></div>
-        <div class="float-image img4"><img src="https://images.unsplash.com/photo-1557800636-894a64c1696f" alt="Wildlife"></div>
-      </div>
-    </section>
 
-    <section id="compositional-strategies" class="gallery-section">
-      <h1 class="section-title">Compositional Strategies</h1>
-      
-      <div class="strategy-container">
-        
-      </div>
-    </section>
-
-    <section id="color-theory" class="gallery-section">
-      <h1 class="section-title">Color Theory</h1>
-      <div class="gallery-grid">
-        <div class="gallery-item">
-          <img src="europe.png" alt="Color Theory 1">
-          <div class="item-content">
-            <h3>Photo</h3>
-            <p>Sick photos </p>
-          </div>
-        </div>
-        <div class="gallery-item">
-          <img src="1.heic" alt="Color Theory 2">
-          <div class="item-content">
-            <h3>Photo</h3>
-            <p>Cool not going to lie</p>
-          </div>
-        </div>
-      </div>
-    </section>
-      <div class="strategy-section">
-        <h2>Photo</h2>
-        <div class="photo-pair">
-          <div class="photo-container">
-            <img src="van.png" alt="Wildlife Example 1">
-            <p>This is a cool photo</p>
-          </div>
-          <div class="photo-container">
-            <img src="2.heic" alt="Wildlife Example 2">
-            <p>Very cool as you can see</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="strategy-section">
-        <h2>Photo</h2>
-        <div class="photo-pair">
-          <div class="photo-container">
-            <img src="trees.png" alt="Leading Lines 1">
-            <p>Cool pictures</p>
-          </div>
-          <div class="photo-container">
-            <img src="3.heic" alt="Leading Lines 2">
-            <p>Very awesome</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="strategy-section">
-        <h2>Photo</h2>
-        <div class="photo-pair">
-          <div class="photo-container">
-            <img src="snow.png" alt="Symmetry 1">
-            <p>Looks so neat</p>
-          </div>
-          <div class="photo-container">
-            <img src="4.heic" alt="Symmetry 2">
-            <p>Amazing</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="strategy-section">
-        <h2>Photo</h2>
-        <div class="photo-pair">
-          <div class="photo-container">
-            <img src="ice.png" alt="Framing 1">
-            <p>This is really cool</p>
-          </div>
-          <div class="photo-container">
-            <img src="5.heic" alt="Framing 2">
-            <p>Sick</p>
-          </div>
-        </div>
-      </div>
-      <div class="strategy-section">
-        <h2>Photo</h2>
-        <div class="photo-pair">
-          <div class="photo-container">
-            <img src="sunsettttt.png" alt="Pattern 1">
-            <p>Look at these nice!</p>
-          </div>
-          <div class="photo-container">
-            <img src="6.png.jpg" alt="Pattern 2">
-            <p>Fire</p>
-          </div>
-        </div>
-      </div>
-      </div>
-    </section>
-  </main>
   <script src="script.js"></script>
 </body>
 </html>
