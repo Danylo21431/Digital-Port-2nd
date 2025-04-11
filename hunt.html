@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Hunt</title>
+  <link href="css/style.css" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+  <div class="container">
+    <nav class="tabs">
+      <button class="tab-btn active" data-tab="home">
+        <i class="fas fa-home"></i> Home
+      </button>
+      <button class="tab-btn" data-tab="settings">
+        <i class="fas fa-cog"></i> Settings
+      </button>
+    </nav>
+
+    <div class="tab-content active" id="home">
+      <h1>Hunt</h1>
+      <div class="image-grid">
+        <div class="image-placeholder" data-aos="fade-up">Image 1</div>
+        <div class="image-placeholder" data-aos="fade-up">Image 2</div>
+        <div class="image-placeholder" data-aos="fade-up">Image 3</div>
+        <div class="image-placeholder" data-aos="fade-up">Image 4</div>
+        <div class="image-placeholder" data-aos="fade-up">Image 5</div>
+        <div class="image-placeholder" data-aos="fade-up">Image 6</div>
+        <div class="image-placeholder" data-aos="fade-up">Image 7</div>
+        <div class="image-placeholder" data-aos="fade-up">Image 8</div>
+        <div class="image-placeholder" data-aos="fade-up">Image 9</div>
+        <div class="image-placeholder" data-aos="fade-up">Image 10</div>
+        <div class="image-placeholder" data-aos="fade-up">Image 11</div>
+        <div class="image-placeholder" data-aos="fade-up">Image 12</div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="settings">
+      <h2>Settings</h2>
+      <div class="settings-container">
+        <div class="setting-item">
+          <label>Theme</label>
+          <select id="themeSelect">
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+          </select>
+        </div>
+        <div class="setting-item">
+          <label>Grid Size</label>
+          <select id="gridSize">
+            <option value="small">Small</option>
+            <option value="medium">Medium</option>
+            <option value="large">Large</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="js/hunt.js"></script>
+</body>
+</html>
